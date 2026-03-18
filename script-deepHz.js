@@ -69,7 +69,7 @@ const sessions = {
     },
 
     session03: {
-        audio: "audio/meditativetiger-melancholic-waves-cinematic-downtempo-390591.mp3"
+        audio: "audio/Mer-Ka-Ba - Jesse Gallagher.mp3"
     },
 
     session04: {
