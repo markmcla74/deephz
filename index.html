@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="screen-orientation" content="portrait">
+<meta name="theme-color" content="#000000">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="DeepHz">
+
+<title>DeepHz</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<!-- Overlay -->
+<div id="overlay">
+    <div class="overlay-content">
+        <h1 id="appName">DeepHz</h1>
+        <!-- Logo -->
+        <img src="deepHz512x512.png" id="logo" alt="DeepHz Logo">
+
+        <!-- Warning -->
+        <div class="warning-box">
+            <h2>WARNING / DISCLAIMER</h2>
+
+            <p>
+            This app displays flashing lights. If you have epilepsy, or someone you live with does, be very careful using this!
+            Use this app at your own risk. Please do not use without proper medical
+            supervision/advice.
+            </p>
+
+            <p>
+            The following people should not attempt brainwave entrainment:
+            </p>
+
+            <ul>
+                <li>Children</li>
+                <li>Pregnant women</li>
+                <li>People with a cardiac pacemaker</li>
+                <li>People who are prone to seizure (i.e. Epilepsy)</li>
+            </ul>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="acknowledge">
+            <label>
+                <input type="checkbox" id="agreeCheck">
+                I understand and accept the risks
+            </label>
+        </div>
+
+        <!-- Start Buttons -->
+        <div class="session-buttons">
+
+            <button onclick="startSession('session01')" disabled>10 min: Stress Relief</button>
+            <button onclick="startSession('session02')" disabled>11 min: Chill Pads</button>
+            <button onclick="startSession('session03')" disabled>18 min: Meditation</button>
+            <button onclick="startSession('session04')" disabled>6 min: Soothing</button>
+
+        </div>
+         <p id="moreInfo">
+                For instructions and more information, please visit the original website dedicated to this project,
+                <a href="https://markmcla74.github.io/diymindmachine/" target="_blank" rel="noopener noreferrer">
+                    DIY Mind Machine
+                </a>
+        </p>
+    </div>
+</div>
+<canvas id="sessionCanvas"></canvas>
+<audio id="audioPlayer" preload="auto"></audio>
+
+
+<script src="script-deepHz.js?v=3"></script>
+</body>
+</html>

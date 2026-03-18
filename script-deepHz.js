@@ -1,0 +1,365 @@
+let currentSession = null;
+let sessionStartTime = null;
+let phase = 0;
+let lastTimestamp = 0;
+let elapsedTime = 0;
+let lastSecond = -1;
+let currentSecond = 0;
+let animationId;
+let canvas;
+let ctx;
+
+
+
+const COLORS = {
+    orange: [248,196,113],
+    green: [0,255,127],
+    blue: [135,206,235],
+    purple: [153,50,204],
+    black: [0,0,0]
+};
+
+const session01Timeline = [ { time:0,  startFreq:0.3, endFreq:1.5, duration:60, color: COLORS.orange  },
+                            { time:60,  startFreq:1.5, endFreq:3.0,  duration: 120, color: COLORS.green },
+                            { time:180, startFreq:3.0,   endFreq:4.5,   duration: 200, color: COLORS.blue },
+                            { time:380,  startFreq:4.5, endFreq:5.5,  duration: 100, color: COLORS.purple },
+                            { time:480, startFreq:5.5,   endFreq:3.0,   duration: 70, color: COLORS.purple },
+                            { time:550, startFreq:3.0,   endFreq:0.2,   duration: 55, color: COLORS.orange }
+                          ];  //time new line = time previous line + duration previous line
+
+const session02Timeline = [ { time:0,  startFreq:0.5, endFreq:2.5, duration:60, color: COLORS.orange  },
+                            { time:60,  startFreq:2.5, endFreq:4.5,  duration: 90, color: COLORS.green },
+                            { time:150, startFreq:4.5,   endFreq:1.5,   duration: 78, color: COLORS.purple },
+
+                            { time:228,  startFreq:1.5, endFreq:3.5, duration:60, color: COLORS.green  },
+                            { time:288,  startFreq:3.5, endFreq:5.5,  duration: 90, color: COLORS.blue },
+                            { time:378, startFreq:5.5,   endFreq:2.0,   duration: 78, color: COLORS.purple },
+
+                            { time:456,  startFreq:2.0, endFreq:4.0, duration:60, color: COLORS.green  },
+                            { time:516,  startFreq:4.0, endFreq:6.0,  duration: 90, color: COLORS.purple },
+                            { time:606, startFreq:6.0,   endFreq:0.5,   duration: 75, color: COLORS.orange }
+                          ];  //time new line = time previous line + duration previous line
+
+const session03Timeline = [ { time:0,  startFreq:0.2, endFreq:1.0, duration:120, color: COLORS.orange  },
+                            { time:120,  startFreq:1.0, endFreq:2.5,  duration: 140, color: COLORS.green },
+                            { time:260,  startFreq:2.5, endFreq:4.0,  duration: 140, color: COLORS.green },
+                            { time:400, startFreq:4.0,   endFreq:5.5,   duration: 175, color: COLORS.blue },
+                            { time:575,  startFreq:5.5, endFreq:6.5,  duration: 175, color: COLORS.purple },
+                            { time:750, startFreq:6.5,   endFreq:4.0,   duration: 200, color: COLORS.purple },
+                            { time:950, startFreq:4.0,   endFreq:0.5,   duration: 100, color: COLORS.orange }
+                          ];  //time new line = time previous line + duration previous line
+
+const session04Timeline = [ { time:0,  startFreq:0.2, endFreq:0.5, duration:60, color: COLORS.orange  },
+                            { time:60,  startFreq:0.5, endFreq:2,  duration: 60, color: COLORS.green },
+                            { time:120,  startFreq:2, endFreq:5, duration:90, color: COLORS.blue  },
+                            { time:210,  startFreq:5, endFreq:3,  duration: 75, color: COLORS.purple },
+                            { time:285, startFreq:3,   endFreq:0.2,   duration: 70, color: COLORS.orange }
+                          ];  //time new line = time previous line + duration previous line
+
+let currentStepIndex = 0;
+
+const sessions = {
+
+    session01: {
+        audio: "audio/Venkatesananda - Jesse Gallagher.mp3"
+    },
+
+    session02: {
+        audio: "audio/meditativetiger-deep-bass-textures-downtempo-experimental-ambient-downtempo-383711Cat.mp3"
+    },
+
+    session03: {
+        audio: "audio/meditativetiger-melancholic-waves-cinematic-downtempo-390591.mp3"
+    },
+
+    session04: {
+        audio: "audio/Tratak - Jesse Gallagher.mp3"
+    }
+
+};
+
+const checkbox = document.getElementById("agreeCheck");
+const buttons = document.querySelectorAll(".session-buttons button");
+
+checkbox.addEventListener("change", () => {
+
+    buttons.forEach(btn => {
+        btn.disabled = !checkbox.checked;
+    });
+
+});
+
+function startSession(type){
+    currentSession = type;
+    sessionStartTime = performance.now();
+    phase = 0;
+    currentStepIndex = 0;
+    document.getElementById("overlay").style.display = "none";
+    canvas = document.getElementById("sessionCanvas");
+    canvas.style.display = "block";
+    canvas.onclick = stopSession;
+    canvas.ontouchstart = stopSession;
+    ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    animate();
+    console.log("Starting session:", type);
+
+    startAudio();
+}
+
+function stopSession(){
+
+    const canvas = document.getElementById("sessionCanvas");
+    const audio = document.getElementById("audioPlayer");
+    const overlay = document.getElementById("overlay");
+    currentSession = null;
+    sessionStartTime = null;
+    elapsedTime = 0;
+    lastSecond = -1;
+    // stop animation
+    cancelAnimationFrame(animationId);
+
+    // stop audio
+    audio.pause();
+    audio.currentTime = 0;
+
+    // hide canvas
+    canvas.style.display = "none";
+
+    // show overlay again
+    overlay.style.display = "flex";
+
+}
+
+function startAudio(){
+
+    const audio = document.getElementById("audioPlayer");
+
+    audio.src = sessions[currentSession].audio;
+
+    audio.loop = false;
+
+    audio.play();
+
+}
+
+function animate(timestamp){
+
+    if(typeof timestamp !== "number"){
+        animationId = requestAnimationFrame(animate);
+        return;
+    }
+
+    if(sessionStartTime === null){
+        sessionStartTime = timestamp;
+    }
+
+    if (lastTimestamp === null) {
+        lastTimestamp = timestamp;
+        requestAnimationFrame(animate);
+        return;
+    }
+
+    elapsedTime = (timestamp - sessionStartTime)/1000;
+    let deltaTime = (timestamp - lastTimestamp) / 1000;
+    lastTimestamp = timestamp;
+    // clamp
+    deltaTime = Math.min(deltaTime, 0.05);
+
+    currentSecond = Math.floor(elapsedTime);
+
+    if(currentSecond !== lastSecond){
+        console.log("seconds interval:", currentSecond);
+        lastSecond = currentSecond;
+    }
+    //console.log("elapsedTime", elapsedTime);
+    //console.log("deltaTime", deltaTime);
+
+    switch(currentSession){
+
+        case "session01":
+            animateSession01(elapsedTime, deltaTime);
+            break;
+
+        case "session02":
+            animateSession02(elapsedTime, deltaTime);
+            break;
+
+        case "session03":
+            animateSession03(elapsedTime, deltaTime);
+            break;
+
+        case "session04":
+            animateSession04(elapsedTime, deltaTime);
+            break;
+
+    }
+
+    animationId = requestAnimationFrame(animate);
+}
+
+function animateSession01(elapsedTime, deltaTime){
+    let maxRed;
+    let maxGreen;
+    let maxBlue;
+    let scaleRed;
+    let scaleGreen;
+    let scaleBlue;
+    let startTime;
+    let duration;
+    let startFreq;
+    let endFreq;
+    let currentStep;
+
+    currentStep = session01Timeline[currentStepIndex];
+    if (elapsedTime < ((session01Timeline[session01Timeline.length-1].time)+(session01Timeline[session01Timeline.length-1].duration)) && (currentStepIndex <= (session01Timeline.length - 1))) {
+        startTime = currentStep.time;
+        duration = currentStep.duration; //units of seconds, not milliseconds
+        startFreq = currentStep.startFreq;
+        endFreq = currentStep.endFreq;
+        maxRed = currentStep.color[0];
+        maxGreen = currentStep.color[1];
+        maxBlue = currentStep.color[2];
+        pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
+        if (elapsedTime >= (session01Timeline[currentStepIndex].time + session01Timeline[currentStepIndex].duration) && (currentStepIndex <= session01Timeline.length-1) ) {
+            currentStepIndex = currentStepIndex + 1;
+            currentStep = session01Timeline[currentStepIndex];
+        }
+    }else{
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+}
+
+function animateSession02(elapsedTime, deltaTime){
+    let maxRed;
+    let maxGreen;
+    let maxBlue;
+    let scaleRed;
+    let scaleGreen;
+    let scaleBlue;
+    let startTime;
+    let duration;
+    let startFreq;
+    let endFreq;
+    let currentStep;
+
+    currentStep = session02Timeline[currentStepIndex];
+    if (elapsedTime < ((session02Timeline[session02Timeline.length-1].time)+(session02Timeline[session02Timeline.length-1].duration)) && (currentStepIndex <= (session02Timeline.length - 1))) {
+        startTime = currentStep.time;
+        duration = currentStep.duration; //units of seconds, not milliseconds
+        startFreq = currentStep.startFreq;
+        endFreq = currentStep.endFreq;
+        maxRed = currentStep.color[0];
+        maxGreen = currentStep.color[1];
+        maxBlue = currentStep.color[2];
+        pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
+        if (elapsedTime >= (session02Timeline[currentStepIndex].time + session02Timeline[currentStepIndex].duration) && (currentStepIndex <= session02Timeline.length-1) ) {
+                currentStepIndex = currentStepIndex + 1;
+                currentStep = session02Timeline[currentStepIndex];
+        }
+    }else{
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+         }
+
+}
+
+function animateSession03(elapsedTime, deltaTime){
+    let maxRed;
+    let maxGreen;
+    let maxBlue;
+    let scaleRed;
+    let scaleGreen;
+    let scaleBlue;
+    let startTime;
+    let duration;
+    let startFreq;
+    let endFreq;
+    let currentStep;
+
+    currentStep = session03Timeline[currentStepIndex];
+    if (elapsedTime < ((session03Timeline[session03Timeline.length-1].time)+(session03Timeline[session03Timeline.length-1].duration)) && (currentStepIndex <= (session03Timeline.length - 1))) {
+        startTime = currentStep.time;
+        duration = currentStep.duration; //units of seconds, not milliseconds
+        startFreq = currentStep.startFreq;
+        endFreq = currentStep.endFreq;
+        maxRed = currentStep.color[0];
+        maxGreen = currentStep.color[1];
+        maxBlue = currentStep.color[2];
+        pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
+        if (elapsedTime >= (session03Timeline[currentStepIndex].time + session03Timeline[currentStepIndex].duration) && (currentStepIndex <= session03Timeline.length-1) ) {
+            currentStepIndex = currentStepIndex + 1;
+            currentStep = session03Timeline[currentStepIndex];
+        }
+    }else{
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+}
+
+
+
+function animateSession04(elapsedTime, deltaTime){
+    let maxRed;
+    let maxGreen;
+    let maxBlue;
+    let scaleRed;
+    let scaleGreen;
+    let scaleBlue;
+    let startTime;
+    let duration;
+    let startFreq;
+    let endFreq;
+    let currentStep;
+
+    currentStep = session04Timeline[currentStepIndex];
+    if (elapsedTime < ((session04Timeline[session04Timeline.length-1].time)+(session04Timeline[session04Timeline.length-1].duration)) && (currentStepIndex <= (session04Timeline.length - 1))) {
+        startTime = currentStep.time;
+        duration = currentStep.duration; //units of seconds, not milliseconds
+        startFreq = currentStep.startFreq;
+        endFreq = currentStep.endFreq;
+        maxRed = currentStep.color[0];
+        maxGreen = currentStep.color[1];
+        maxBlue = currentStep.color[2];
+        pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
+        if (elapsedTime >= (session04Timeline[currentStepIndex].time + session04Timeline[currentStepIndex].duration) && (currentStepIndex <= session04Timeline.length-1) ) {
+            currentStepIndex = currentStepIndex + 1;
+            currentStep = session04Timeline[currentStepIndex];
+        }
+    }else{
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+}
+
+
+function pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue){
+    //If you don't want the frequency to ramp up or down to a different frequency,
+    //then just make startFreq = endFreq'
+
+    let t = (elapsedTime - startTime);
+
+    let progress = Math.min(t/duration, 1);
+
+    let freq = startFreq + progress * (endFreq - startFreq);
+    //phase shift of -Pi/2 makes initial value of sineValue = 0.5( 1 + -1) = 0, or black screen
+    let sineValue = 0.5 * (
+        1 + Math.sin(phase - Math.PI / 2)
+    );
+    //console.log("sineValue", sineValue);
+    phase += 2 * Math.PI * freq * deltaTime;
+    let r = Math.round(sineValue * maxRed);
+    let g = Math.round(sineValue * maxGreen);
+    let b = Math.round(sineValue * maxBlue);
+
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+
