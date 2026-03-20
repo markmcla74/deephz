@@ -8,8 +8,9 @@ let currentSecond = 0;
 let animationId;
 let canvas;
 let ctx;
+let audioUnlocked = false;
 
-
+const audioElements = {};
 
 const COLORS = {
     orange: [248,196,113],
@@ -37,7 +38,7 @@ const session02Timeline = [ { time:0,  startFreq:0.5, endFreq:2.5, duration:60, 
 
                             { time:456,  startFreq:2.0, endFreq:4.0, duration:60, color: COLORS.green  },
                             { time:516,  startFreq:4.0, endFreq:6.0,  duration: 90, color: COLORS.purple },
-                            { time:606, startFreq:6.0,   endFreq:0.5,   duration: 75, color: COLORS.orange }
+                            { time:606, startFreq:6.0,   endFreq:0.5,   duration: 80, color: COLORS.orange }
                           ];  //time new line = time previous line + duration previous line
 
 const session03Timeline = [ { time:0,  startFreq:0.2, endFreq:1.0, duration:120, color: COLORS.orange  },
@@ -61,19 +62,19 @@ let currentStepIndex = 0;
 const sessions = {
 
     session01: {
-        audio: "audio/Venkatesananda - Jesse Gallagher.mp3"
+        audio: "audio/track1.mp3"
     },
 
     session02: {
-        audio: "audio/meditativetiger-deep-bass-textures-downtempo-experimental-ambient-downtempo-383711Cat.mp3"
+        audio: "audio/track2.mp3"
     },
 
     session03: {
-        audio: "audio/Mer-Ka-Ba - Jesse Gallagher.mp3"
+        audio: "audio/track3.mp3"
     },
 
     session04: {
-        audio: "audio/Tratak - Jesse Gallagher.mp3"
+        audio: "audio/track4.mp3"
     }
 
 };
@@ -86,6 +87,15 @@ checkbox.addEventListener("change", () => {
     buttons.forEach(btn => {
         btn.disabled = !checkbox.checked;
     });
+
+    if (checkbox.checked) {
+        preloadAudio();
+
+        // small delay helps ensure audio is ready before unlock
+        setTimeout(() => {
+            unlockAudio();
+        }, 100);
+    }
 
 });
 
@@ -112,36 +122,39 @@ function startSession(type){
 function stopSession(){
 
     const canvas = document.getElementById("sessionCanvas");
-    const audio = document.getElementById("audioPlayer");
     const overlay = document.getElementById("overlay");
+
+    // ✅ stop audio FIRST
+    const audio = audioElements[currentSession];
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    // then reset state
     currentSession = null;
     sessionStartTime = null;
     elapsedTime = 0;
     lastSecond = -1;
-    // stop animation
+
     cancelAnimationFrame(animationId);
 
-    // stop audio
-    audio.pause();
-    audio.currentTime = 0;
-
-    // hide canvas
     canvas.style.display = "none";
-
-    // show overlay again
     overlay.style.display = "flex";
-
 }
 
 function startAudio(){
 
-    const audio = document.getElementById("audioPlayer");
+    const audio = audioElements[currentSession];
 
-    audio.src = sessions[currentSession].audio;
+    if (!audio) return;
 
-    audio.loop = false;
+    audio.loop = true;  // ✅ always loop
+    audio.currentTime = 0;
 
-    audio.play();
+    audio.play().catch(err => {
+        console.log("Audio play failed:", err);
+    });
 
 }
 
@@ -200,6 +213,7 @@ function animate(timestamp){
     animationId = requestAnimationFrame(animate);
 }
 
+
 function animateSession01(elapsedTime, deltaTime){
     let maxRed;
     let maxGreen;
@@ -213,8 +227,9 @@ function animateSession01(elapsedTime, deltaTime){
     let endFreq;
     let currentStep;
 
-    currentStep = session01Timeline[currentStepIndex];
-    if (elapsedTime < ((session01Timeline[session01Timeline.length-1].time)+(session01Timeline[session01Timeline.length-1].duration)) && (currentStepIndex <= (session01Timeline.length - 1))) {
+
+    if (elapsedTime < ((session01Timeline[session01Timeline.length-1].time)+(session01Timeline[session01Timeline.length-1].duration)) && (currentStepIndex < session01Timeline.length)) {
+        currentStep = session01Timeline[currentStepIndex];
         startTime = currentStep.time;
         duration = currentStep.duration; //units of seconds, not milliseconds
         startFreq = currentStep.startFreq;
@@ -223,16 +238,17 @@ function animateSession01(elapsedTime, deltaTime){
         maxGreen = currentStep.color[1];
         maxBlue = currentStep.color[2];
         pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
-        if (elapsedTime >= (session01Timeline[currentStepIndex].time + session01Timeline[currentStepIndex].duration) && (currentStepIndex <= session01Timeline.length-1) ) {
+        if (elapsedTime >= (currentStep.time + currentStep.duration) && (currentStepIndex < session01Timeline.length-1) ) {
             currentStepIndex = currentStepIndex + 1;
-            currentStep = session01Timeline[currentStepIndex];
+
         }
     }else{
-        ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+        stopSession();
+        return;
     }
 
 }
+
 
 function animateSession02(elapsedTime, deltaTime){
     let maxRed;
@@ -247,8 +263,9 @@ function animateSession02(elapsedTime, deltaTime){
     let endFreq;
     let currentStep;
 
-    currentStep = session02Timeline[currentStepIndex];
-    if (elapsedTime < ((session02Timeline[session02Timeline.length-1].time)+(session02Timeline[session02Timeline.length-1].duration)) && (currentStepIndex <= (session02Timeline.length - 1))) {
+
+    if (elapsedTime < ((session02Timeline[session02Timeline.length-1].time)+(session02Timeline[session02Timeline.length-1].duration)) && (currentStepIndex < session02Timeline.length)) {
+        currentStep = session02Timeline[currentStepIndex];
         startTime = currentStep.time;
         duration = currentStep.duration; //units of seconds, not milliseconds
         startFreq = currentStep.startFreq;
@@ -257,13 +274,13 @@ function animateSession02(elapsedTime, deltaTime){
         maxGreen = currentStep.color[1];
         maxBlue = currentStep.color[2];
         pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
-        if (elapsedTime >= (session02Timeline[currentStepIndex].time + session02Timeline[currentStepIndex].duration) && (currentStepIndex <= session02Timeline.length-1) ) {
+        if (elapsedTime >= (currentStep.time + currentStep.duration) && (currentStepIndex < session02Timeline.length-1) ) {
                 currentStepIndex = currentStepIndex + 1;
-                currentStep = session02Timeline[currentStepIndex];
+
         }
     }else{
-        ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+        stopSession();
+        return;
          }
 
 }
@@ -281,8 +298,9 @@ function animateSession03(elapsedTime, deltaTime){
     let endFreq;
     let currentStep;
 
-    currentStep = session03Timeline[currentStepIndex];
-    if (elapsedTime < ((session03Timeline[session03Timeline.length-1].time)+(session03Timeline[session03Timeline.length-1].duration)) && (currentStepIndex <= (session03Timeline.length - 1))) {
+
+    if (elapsedTime < ((session03Timeline[session03Timeline.length-1].time)+(session03Timeline[session03Timeline.length-1].duration)) && (currentStepIndex < session03Timeline.length)) {
+        currentStep = session03Timeline[currentStepIndex];
         startTime = currentStep.time;
         duration = currentStep.duration; //units of seconds, not milliseconds
         startFreq = currentStep.startFreq;
@@ -291,17 +309,16 @@ function animateSession03(elapsedTime, deltaTime){
         maxGreen = currentStep.color[1];
         maxBlue = currentStep.color[2];
         pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
-        if (elapsedTime >= (session03Timeline[currentStepIndex].time + session03Timeline[currentStepIndex].duration) && (currentStepIndex <= session03Timeline.length-1) ) {
+        if (elapsedTime >= (currentStep.time + currentStep.duration) && (currentStepIndex < session03Timeline.length-1) ) {
             currentStepIndex = currentStepIndex + 1;
-            currentStep = session03Timeline[currentStepIndex];
+
         }
     }else{
-        ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+        stopSession();
+        return;
     }
 
 }
-
 
 
 function animateSession04(elapsedTime, deltaTime){
@@ -317,8 +334,9 @@ function animateSession04(elapsedTime, deltaTime){
     let endFreq;
     let currentStep;
 
-    currentStep = session04Timeline[currentStepIndex];
-    if (elapsedTime < ((session04Timeline[session04Timeline.length-1].time)+(session04Timeline[session04Timeline.length-1].duration)) && (currentStepIndex <= (session04Timeline.length - 1))) {
+
+    if (elapsedTime < ((session04Timeline[session04Timeline.length-1].time)+(session04Timeline[session04Timeline.length-1].duration)) && (currentStepIndex < session04Timeline.length)) {
+        currentStep = session04Timeline[currentStepIndex];
         startTime = currentStep.time;
         duration = currentStep.duration; //units of seconds, not milliseconds
         startFreq = currentStep.startFreq;
@@ -327,17 +345,16 @@ function animateSession04(elapsedTime, deltaTime){
         maxGreen = currentStep.color[1];
         maxBlue = currentStep.color[2];
         pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue);
-        if (elapsedTime >= (session04Timeline[currentStepIndex].time + session04Timeline[currentStepIndex].duration) && (currentStepIndex <= session04Timeline.length-1) ) {
+        if (elapsedTime >= (currentStep.time + currentStep.duration) && (currentStepIndex < session04Timeline.length-1) ) {
             currentStepIndex = currentStepIndex + 1;
-            currentStep = session04Timeline[currentStepIndex];
+
         }
     }else{
-        ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+        stopSession();
+        return;
     }
 
 }
-
 
 function pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endFreq, maxRed, maxGreen, maxBlue){
     //If you don't want the frequency to ramp up or down to a different frequency,
@@ -362,4 +379,25 @@ function pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endF
     ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 
+function preloadAudio() {
+    Object.keys(sessions).forEach(key => {
+        const audio = new Audio();
+        audio.src = sessions[key].audio;
+        audio.preload = "auto";
+        audio.load();
+        audioElements[key] = audio;
+    });
+}
 
+function unlockAudio() {
+    if (audioUnlocked) return;
+
+    Object.values(audioElements).forEach(audio => {
+        audio.play().then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+        }).catch(() => {});
+    });
+
+    audioUnlocked = true;
+}
