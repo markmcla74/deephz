@@ -20,12 +20,12 @@ const COLORS = {
     black: [0,0,0]
 };
 
-const session01Timeline = [ { time:0,  startFreq:0.3, endFreq:1.5, duration:60, color: COLORS.orange  },
-                            { time:60,  startFreq:1.5, endFreq:3.0,  duration: 120, color: COLORS.green },
-                            { time:180, startFreq:3.0,   endFreq:4.5,   duration: 200, color: COLORS.blue },
-                            { time:380,  startFreq:4.5, endFreq:5.5,  duration: 100, color: COLORS.purple },
-                            { time:480, startFreq:5.5,   endFreq:3.0,   duration: 70, color: COLORS.purple },
-                            { time:550, startFreq:3.0,   endFreq:0.2,   duration: 55, color: COLORS.orange }
+const session01Timeline = [ { time:0,  startFreq:0.3, endFreq:4.0, duration:90, color: COLORS.orange  },
+                            { time:90,  startFreq:4.0, endFreq:8.0,  duration: 90, color: COLORS.green },
+                            { time:180, startFreq:8.0,   endFreq:8.0,   duration: 90, color: COLORS.blue },
+                            { time:270,  startFreq:8.0, endFreq:5.0,  duration: 120, color: COLORS.green },
+                            { time:390, startFreq:5.0,   endFreq:3.5,   duration: 90, color: COLORS.purple },
+                            { time:480, startFreq:3.5,   endFreq:0.3,   duration: 125, color: COLORS.orange }
                           ];  //time new line = time previous line + duration previous line
 
 const session02Timeline = [ { time:0,  startFreq:0.5, endFreq:2.5, duration:60, color: COLORS.orange  },
