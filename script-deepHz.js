@@ -41,23 +41,23 @@ const session02Timeline = [ { time:0,  startFreq:0.28, endFreq:0.84, duration:30
                             { time:456,  startFreq:0.42, endFreq:0.84, duration:30, color: COLORS.green  },
                             { time:486,  startFreq:0.84, endFreq:6.72,  duration: 30, color: COLORS.green },
                             { time:516,  startFreq:6.72, endFreq:6.72,  duration: 90, color: COLORS.blue },
-                            { time:606, startFreq:6.72,   endFreq:0.28,   duration: 79.5, color: COLORS.orange }
+                            { time:606, startFreq:6.72,   endFreq:0.28,   duration: 79, color: COLORS.purple }
                           ];  //time new line = time previous line + duration previous line
 
-const session03Timeline = [ { time:0,  startFreq:0.2, endFreq:1.0, duration:120, color: COLORS.orange  },
-                            { time:120,  startFreq:1.0, endFreq:2.5,  duration: 140, color: COLORS.green },
-                            { time:260,  startFreq:2.5, endFreq:4.0,  duration: 140, color: COLORS.green },
-                            { time:400, startFreq:4.0,   endFreq:5.5,   duration: 175, color: COLORS.blue },
-                            { time:575,  startFreq:5.5, endFreq:6.5,  duration: 175, color: COLORS.purple },
-                            { time:750, startFreq:6.5,   endFreq:4.0,   duration: 200, color: COLORS.purple },
-                            { time:950, startFreq:4.0,   endFreq:0.5,   duration: 100, color: COLORS.orange }
+const session03Timeline = [ { time:0,  startFreq:0.2, endFreq:3.0, duration:45, color: COLORS.orange  },
+                            { time:45,  startFreq:3, endFreq:6.5,  duration: 45, color: COLORS.orange },
+                            { time:90,  startFreq:6.5, endFreq:6.5,  duration: 310, color: COLORS.green },
+                            { time:400, startFreq:6.5,   endFreq:6.5,   duration: 175, color: COLORS.green },
+                            { time:575,  startFreq:6.5, endFreq:6.5,  duration: 175, color: COLORS.blue },
+                            { time:750, startFreq:6.5,   endFreq:4.0,   duration: 200, color: COLORS.blue },
+                            { time:950, startFreq:4.0,   endFreq:0.5,   duration: 100, color: COLORS.purple }
                           ];  //time new line = time previous line + duration previous line
 
-const session04Timeline = [ { time:0,  startFreq:0.2, endFreq:0.5, duration:60, color: COLORS.orange  },
-                            { time:60,  startFreq:0.5, endFreq:2,  duration: 60, color: COLORS.green },
-                            { time:120,  startFreq:2, endFreq:5, duration:90, color: COLORS.blue  },
-                            { time:210,  startFreq:5, endFreq:3,  duration: 75, color: COLORS.purple },
-                            { time:285, startFreq:3,   endFreq:0.2,   duration: 70, color: COLORS.orange }
+const session04Timeline = [ { time:0,  startFreq:0.2, endFreq:2.0, duration:60, color: COLORS.orange  },
+                            { time:60,  startFreq:2, endFreq:5,  duration: 60, color: COLORS.green },
+                            { time:120,  startFreq:5, endFreq:5, duration:90, color: COLORS.blue  },
+                            { time:210,  startFreq:5, endFreq:3,  duration: 75, color: COLORS.blue },
+                            { time:285, startFreq:3,   endFreq:0.2,   duration: 70, color: COLORS.purple }
                           ];  //time new line = time previous line + duration previous line
 
 let currentStepIndex = 0;
@@ -152,7 +152,7 @@ function startAudio(){
 
     if (!audio) return;
 
-    audio.loop = true;  // ✅ always loop
+    audio.loop = true;  // ✅ always loop (timeline or touching screen determines when audio stops)
     audio.currentTime = 0;
 
     audio.play().catch(err => {
