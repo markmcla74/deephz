@@ -24,24 +24,24 @@ const session01Timeline = [ { time:0,  startFreq:0.3, endFreq:4.0, duration:90, 
                             { time:90,  startFreq:4.0, endFreq:8.0,  duration: 90, color: COLORS.green },
                             { time:180, startFreq:8.0,   endFreq:8.0,   duration: 90, color: COLORS.blue },
                             { time:270,  startFreq:8.0, endFreq:5.0,  duration: 120, color: COLORS.green },
-                            { time:390, startFreq:5.0,   endFreq:3.5,   duration: 90, color: COLORS.purple },
-                            { time:480, startFreq:3.5,   endFreq:0.3,   duration: 125, color: COLORS.orange }
+                            { time:390, startFreq:5.0,   endFreq:3.5,   duration: 90, color: COLORS.green },
+                            { time:480, startFreq:3.5,   endFreq:0.3,   duration: 126, color: COLORS.orange }
                           ];  //time new line = time previous line + duration previous line
 
 const session02Timeline = [ { time:0,  startFreq:0.28, endFreq:0.84, duration:30, color: COLORS.orange  },
                             { time:30,  startFreq:0.84, endFreq:6.72,  duration: 30, color: COLORS.green },
-                            { time:60,  startFreq:6.72, endFreq:6.72,  duration: 90, color: COLORS.green },
-                            { time:150, startFreq:6.72,   endFreq:0.42,   duration: 78, color: COLORS.purple },
+                            { time:60,  startFreq:6.72, endFreq:6.72,  duration: 90, color: COLORS.blue },
+                            { time:150, startFreq:6.72,   endFreq:0.42,   duration: 78, color: COLORS.green },
 
-                            { time:228,  startFreq:0.42, endFreq:0.84, duration:30, color: COLORS.green  },
+                            { time:228,  startFreq:0.42, endFreq:0.84, duration:30, color: COLORS.orange  },
                             { time:258,  startFreq:0.84, endFreq:6.72,  duration: 30, color: COLORS.green },
                             { time:288,  startFreq:6.72, endFreq:6.72,  duration: 90, color: COLORS.blue },
-                            { time:378, startFreq:6.72,   endFreq:0.42,   duration: 78, color: COLORS.purple },
+                            { time:378, startFreq:6.72,   endFreq:0.42,   duration: 78, color: COLORS.green },
 
-                            { time:456,  startFreq:0.42, endFreq:0.84, duration:30, color: COLORS.green  },
+                            { time:456,  startFreq:0.42, endFreq:0.84, duration:30, color: COLORS.orange  },
                             { time:486,  startFreq:0.84, endFreq:6.72,  duration: 30, color: COLORS.green },
                             { time:516,  startFreq:6.72, endFreq:6.72,  duration: 90, color: COLORS.blue },
-                            { time:606, startFreq:6.72,   endFreq:0.28,   duration: 79, color: COLORS.purple }
+                            { time:606, startFreq:6.72,   endFreq:0.28,   duration: 79, color: COLORS.orange }
                           ];  //time new line = time previous line + duration previous line
 
 const session03Timeline = [ { time:0,  startFreq:0.2, endFreq:3.0, duration:45, color: COLORS.orange  },
@@ -50,14 +50,14 @@ const session03Timeline = [ { time:0,  startFreq:0.2, endFreq:3.0, duration:45, 
                             { time:400, startFreq:6.5,   endFreq:6.5,   duration: 175, color: COLORS.green },
                             { time:575,  startFreq:6.5, endFreq:6.5,  duration: 175, color: COLORS.blue },
                             { time:750, startFreq:6.5,   endFreq:4.0,   duration: 200, color: COLORS.blue },
-                            { time:950, startFreq:4.0,   endFreq:0.5,   duration: 100, color: COLORS.purple }
+                            { time:950, startFreq:4.0,   endFreq:0.5,   duration: 100, color: COLORS.orange }
                           ];  //time new line = time previous line + duration previous line
 
 const session04Timeline = [ { time:0,  startFreq:0.2, endFreq:2.0, duration:60, color: COLORS.orange  },
                             { time:60,  startFreq:2, endFreq:5,  duration: 60, color: COLORS.green },
                             { time:120,  startFreq:5, endFreq:5, duration:90, color: COLORS.blue  },
                             { time:210,  startFreq:5, endFreq:3,  duration: 75, color: COLORS.blue },
-                            { time:285, startFreq:3,   endFreq:0.2,   duration: 70, color: COLORS.purple }
+                            { time:285, startFreq:3,   endFreq:0.2,   duration: 70, color: COLORS.orange }
                           ];  //time new line = time previous line + duration previous line
 
 let currentStepIndex = 0;
