@@ -39,10 +39,14 @@ scrollbar-width:none;
     padding-bottom:40px;
 }
 
+#appName {
+font-size: 2.2rem;
+line-height: 1.2;
+}
 
 .subtitle {
     display: block;
-    font-size: 0.5em;
+    font-size: 1rem;   /* fixed size instead of em */
     font-weight: normal;
     opacity: 0.8;
     margin-top: 5px;
