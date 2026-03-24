@@ -1,0 +1,1 @@
+DeepHz helps you achieve a particular type of relaxed meditative state called brain entrainment. "DeepHz" uses binaural tones and a unique method of ramping between colors to immerse you into this calming environment. Use this link to try it! https://markmcla74.github.io/deephz/
