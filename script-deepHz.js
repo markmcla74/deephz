@@ -372,8 +372,10 @@ function pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endF
     let sineValue = 0.5 * (
         1 + Math.sin(phase - Math.PI / 2)
     );
-    //console.log("sineValue", sineValue);
-    phase += 2 * Math.PI * freq * deltaTime;
+
+    //if the frequency is changing (f(t)), you can't just plug the new frequency into that static formula.
+    //Instead, the phase at any time t is the accumulation of all the "cycles" that have happened up to that point:
+    phase = (phase + (2 * Math.PI * freq * deltaTime)) % (2 * Math.PI);
     let r = Math.round(sineValue * maxRed);
     let g = Math.round(sineValue * maxGreen);
     let b = Math.round(sineValue * maxBlue);
