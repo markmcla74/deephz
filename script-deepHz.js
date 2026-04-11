@@ -1,3 +1,4 @@
+let wakeLock = null;
 let currentSession = null;
 let sessionStartTime = null;
 let phase = 0;
@@ -120,10 +121,10 @@ function startSession(type){
     console.log("Starting session:", type);
 
     startAudio();
+    requestWakeLock();
 }
 
 function stopSession(){
-
     const canvas = document.getElementById("sessionCanvas");
     const overlay = document.getElementById("overlay");
 
@@ -144,6 +145,7 @@ function stopSession(){
 
     canvas.style.display = "none";
     overlay.style.display = "flex";
+    releaseWakeLock();
 }
 
 function startAudio(){
@@ -406,3 +408,34 @@ function unlockAudio() {
 
     audioUnlocked = true;
 }
+
+async function requestWakeLock() {
+    try {
+        if ('wakeLock' in navigator) {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log("Wake Lock active.");
+
+            // If the lock is released (e.g. by the system), reset our variable
+            wakeLock.addEventListener('release', () => {
+                console.log("Wake Lock released.");
+                wakeLock = null;
+            });
+        }
+    } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+    }
+}
+
+function releaseWakeLock() {
+    if (wakeLock !== null) {
+        wakeLock.release();
+        wakeLock = null;
+    }
+}
+
+// Re-acquire lock if user tabs back into the app during a session
+document.addEventListener('visibilitychange', async () => {
+    if (wakeLock === null && document.visibilityState === 'visible' && currentSession !== null) {
+        await requestWakeLock();
+    }
+});
