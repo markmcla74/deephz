@@ -18,6 +18,7 @@
      <div id="myParagraph">
         <ul>
 	<img src="configurationWithGooseneckReduced.jpg" alt="" class="secondaryImageFormat"/> <p><center>Lay on a bed in a dark room, and attach your phone to a gooseneck phone holder. <br> You might need to clamp an additional piece of wood to support the gooseneck phone holder.</center> </p> <p></p>
+	 <br>
         <img src="demonstrationPicture2p2.png" alt="" class="secondaryImageFormat"/> <p> <center>Another option is to recline in a comfortable chair, and use a virtual reality headset or a custom headset.</center></p><p></p>
 	    <li>Disable the "Adaptaptive Brightness" feature on your phone.</li>
 	    <li>Adjust the brightness on your phone until you find what is most comfortable for you.</li>
@@ -67,12 +68,12 @@
         </ul>
       </li>
 
-
+    
 	</div>
 
 
     <br>
-
+    <button id="startButton" onclick="goBack()">Back</button> 
 
 
 
@@ -83,8 +84,13 @@
 
      
  </div>
+  
 <canvas id="canvas"></canvas>
-
+  <script>
+        function goBack() {
+        window.history.back();
+        }
+  </script>
 
 </body>
 </html>
