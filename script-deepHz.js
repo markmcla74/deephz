@@ -1,4 +1,7 @@
+console.log("JS LOADED");
+//const { KeepAwake } = window.Capacitor.Plugins;
 let wakeLock = null;
+const overlay = document.getElementById('session-overlay');
 let currentSession = null;
 let sessionStartTime = null;
 let phase = 0;
@@ -87,23 +90,30 @@ const checkbox = document.getElementById("agreeCheck");
 const buttons = document.querySelectorAll(".session-buttons button");
 
 checkbox.addEventListener("change", () => {
-
     buttons.forEach(btn => {
         btn.disabled = !checkbox.checked;
     });
 
     if (checkbox.checked) {
         preloadAudio();
-
-        // small delay helps ensure audio is ready before unlock
         setTimeout(() => {
             unlockAudio();
         }, 400);
     }
-
 });
 
-function startSession(type){
+async function startSession(type){
+    // ⚡️ THE FIX: Disable everything immediately so ghost-taps do nothing
+    checkbox.disabled = true;
+    buttons.forEach(btn => btn.disabled = true);
+  //  if (KeepAwake) {
+  //      try {
+  //          await KeepAwake.keepAwake();
+  //          console.log("KeepAwake ON");
+  //      } catch (e) {
+  //          console.log("KeepAwake failed", e);
+  //      }
+   // }
     currentSession = type;
     sessionStartTime = performance.now();
     phase = 0;
@@ -121,10 +131,17 @@ function startSession(type){
     console.log("Starting session:", type);
 
     startAudio();
-    requestWakeLock();
 }
 
-function stopSession(){
+async function stopSession(){
+  //  if (KeepAwake) {
+  //      try {
+  //          await KeepAwake.allowSleep();
+  //          console.log("KeepAwake OFF");
+  //      } catch (e) {
+  //          console.log("AllowSleep failed", e);
+  //      }
+  //  }
     const canvas = document.getElementById("sessionCanvas");
     const overlay = document.getElementById("overlay");
 
@@ -145,7 +162,12 @@ function stopSession(){
 
     canvas.style.display = "none";
     overlay.style.display = "flex";
-    releaseWakeLock();
+    // ⚡️ THE FIX: Reset the UI state
+    checkbox.checked = false; 
+    checkbox.disabled = false;
+    buttons.forEach(btn => {
+        btn.disabled = true; // Lock buttons until they check the box again
+    });
 }
 
 function startAudio(){
@@ -384,6 +406,27 @@ function pulseColor(elapsedTime, deltaTime, startTime, duration, startFreq, endF
 
     ctx.fillStyle = `rgb(${r},${g},${b})`;
     ctx.fillRect(0,0,canvas.width,canvas.height);
+    // 2. Draw the text overlay (only for the first 5 seconds of the total session)
+    if (elapsedTime < 5) {
+    ctx.save();
+    
+    // 1. Move the "origin" to the center of the screen
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    
+    // 2. Rotate the context by 90 degrees (Math.PI / 2)
+    // Use -Math.PI / 2 if it ends up upside down depending on your grip
+    ctx.rotate(Math.PI / 2); 
+    
+    // 3. Style and draw
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.font = "24px sans-serif";
+    ctx.textAlign = "center";
+    
+    // Since we translated to the center, we draw at (0,0)
+    ctx.fillText("Tap anywhere to exit", 0, 0);
+    
+    ctx.restore();
+    }
 }
 
 function preloadAudio() {
@@ -408,7 +451,6 @@ function unlockAudio() {
 
     audioUnlocked = true;
 }
-
 async function requestWakeLock() {
     try {
         if ('wakeLock' in navigator) {
