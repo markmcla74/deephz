@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="deepHzFeatureImage3p0.png" alt="App Feature Image" width="600">
+</p>
 DeepHz helps you achieve a particular type of relaxed meditative state called brain entrainment. "DeepHz" uses binaural tones and a unique method of ramping between colors to immerse you into this calming environment. Use this link to try it! https://markmcla74.github.io/deephz/
 
 "DeepHz" can feel exactly like a native App Store download using a built-in mobile feature called "Add to Home Screen." It places a dedicated icon right on your phone's home screen for instant access!
