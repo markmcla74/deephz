@@ -9,3 +9,7 @@ DeepHz helps you achieve a particular type of relaxed meditative state called br
 🤖 On Android (Chrome): Tap the three dots in the top right, and tap Add to Home Screen (or Install app).
 
 When you launch DeepHz from your home screen icon, the browser completely hides its top address bar and bottom navigation controls. It opens in glorious full-screen canvas mode, completely indistinguishable from a native app marketplace title.
+
+
+Alternatively, you are welcome to download this app, or any of my apps, from the google play store. All of my apps are free, and none of them contain ads.
+https://play.google.com/store/search?q=markmcla&c=apps
