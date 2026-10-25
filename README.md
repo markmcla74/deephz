@@ -13,7 +13,7 @@
 # About DeepHz and Why it's Unique
 
 ## How DeepHz Works
-Start a session and **close your eyes**. You will still percieve colors through your closed eyelids. The binaural tones and the unique method of ramping between colors will immerse you into a calming environment. You will feel like you have entered into a new relaxing world! And the app is free!
+The goal of DeepHz is to help you achieve a relaxed meditative state through a controlled auditory and visual environment. The binaural tones and the unique method of ramping between colors will immerse you into this calming environment. And the app is free!
 
 ### Low-Fatigue "Breathing" Waveform
 
@@ -87,7 +87,7 @@ Launch DeepHz. Tap the **Share** button, scroll down, and tap **Add to Home Scre
 ### 🤖 Android — Chrome
 
 Launch DeepHz. Tap the **three dots** in the top right, then tap **Add to Home Screen** or **Install app**.
-[Launch IsoTimer](https://markmcla74.github.io/deephz/)
+[Launch DeepHz](https://markmcla74.github.io/deephz/)
 
 Once installed, DeepHz has its own icon on your home screen and can be launched like any other app.
 
