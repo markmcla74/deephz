@@ -19,7 +19,7 @@ The goal of DeepHz is to help you achieve a relaxed meditative state through a c
 
 DeepHz uses a sine-wave modulation to create an organic "breathing" light swell. This makes the sessions substantially gentler on the eyes and far more conducive to deep, uninterrupted relaxation or sleep protocols. This is different than the jarring on/off stroboscopic "punches" found in traditional mind machines.
 
-### Pure Sinusoidal Brightness (RGB x $\sin(\theta)$)
+### Pure Sinusoidal Brightness (RGB x sin($\theta$))
 
 By modulating display brightness strictly along a sine curve between full target intensity and total black ($0,0,0$), DeepHz completely eliminates the high-frequency harmonic noise native to square waves. The result is a singular, clean fundamental frequency.
 
