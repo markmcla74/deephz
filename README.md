@@ -13,7 +13,7 @@
 # About DeepHz and Why it's Unique
 
 ## How DeepHz Works
-The goal of DeepHz is to help you achieve a relaxed meditative state through a controlled auditory and visual environment. The binaural tones and unique color-ramping method work together to immerse you in a deeply calming environment. Best of all, the app is completely free!
+The goal of DeepHz is to help you achieve a relaxed meditative state through a controlled auditory and visual environment. The binaural tones and unique color-ramping method work together to immerse you in a deeply calming environment. Best of all, the app is 100% free, ad-free, and designed with a strict privacy-first, zero-data-collection approach!
 
 ### Low-Fatigue "Breathing" Waveform
 
