@@ -13,7 +13,7 @@
 # About DeepHz and Why it's Unique
 
 ## How DeepHz Works
-The goal of DeepHz is to help you achieve a relaxed meditative state through a controlled auditory and visual environment. The binaural tones and the unique method of ramping between colors will immerse you into this calming environment. And the app is free!
+The goal of DeepHz is to help you achieve a relaxed meditative state through a controlled auditory and visual environment. The binaural tones and unique color-ramping method work together to immerse you in a deeply calming environment. Best of all, the app is completely free!
 
 ### Low-Fatigue "Breathing" Waveform
 
@@ -33,7 +33,7 @@ DeepHz calculates light flashing using continuous real-time phase integration ($
 
 <p align="center">
   <img src="configurationWithGooseneckReduced.jpg" alt="Gooseneck Configuration" width="400"><br>
-  <em>Lay on a bed in a dark room, and attach your phone to a gooseneck phone holder.<br>You might need to clamp an additional piece of wood to support the gooseneck phone holder.</em>
+  <em>Lie on a bed in a dark room, and attach your phone to a gooseneck phone holder.<br>You might need to clamp an additional piece of wood to support the gooseneck phone holder.</em>
 </p>
 
 <p align="center">
@@ -41,16 +41,16 @@ DeepHz calculates light flashing using continuous real-time phase integration ($
   <em>Another option is to recline in a comfortable chair, and use a virtual reality headset or a custom headset.</em>
 </p>
 
-* Be sure that your screen is bright, but not uncomfortably bright. You might have to disable the "Adaptive Brightness" setting on your phone.
-* Put on your headphones, start a session, **CLOSE YOUR EYES**, and relax.
-* Even though your eyes are closed, you will still perceive the changing colors.
-* The binaural music and flashing lights will immerse you into a different world!
+- Be sure that your screen is bright, but not uncomfortably bright. You might have to disable the "Adaptive Brightness" setting on your phone.
+- Put on your headphones, start a session, **CLOSE YOUR EYES**, and relax.
+- Even though your eyes are closed, you will still perceive the changing colors.
+- The binaural music and flashing lights will immerse you into a different world!
 
 ## Custom Headset
 
-If you prefer using a headset, then my custom headset is more comfortable than the virtual reality headsets I tested. My custom headset doesn't extend as far out as virtual reality headsets, and so the headset is less front-heavy. Another advantage of a headset is that the room doesn't need to be dark to enjoy a session.
+If you prefer using a headset, my custom design is more comfortable than the virtual reality headsets I tested. It doesn't extend as far outward, making it significantly less front-heavy. Another advantage of using a headset is that the room doesn't need to be dark to enjoy a session.
 
-* **The custom headset is 3D printed:**
+- **The custom headset is 3D printed:**
   * <img src="headset3DPrinted2p0.png" alt="Headset 3D Printed Parts" width="300">
   * <img src="headsetAdditionalView2p0.png" alt="Headset Additional View" width="300">
   * Find someone who can 3D print these custom parts for the main body and front plates. I use [OCpartsupply](https://www.ebay.com/itm/166598975110?itmmeta=01J2J29J7HP0WC9DGQSEX5J3PX&hash=item26ca129e86:g:eJ4AAOSwpVBlzP3H&itmprp=enc%3AAQAJAAAA0DP0jMBHs4EGwu%2B%2B%2BMgcUH%2BYUC%2Bgv%2Bvv0RQgtZi%2BUff%2BmdOUcyv3SFZkyt5aoQexqJYYG3yrpDHugrJ2djsJNQ%2FPtyAZFbbcpQLF9ljEezC0LXS%2FLwNH2an2MF4PweOIb%2FvCKRc%2FW8cVXKAurARQwq1oFoM1KyR64QYg3aJZWMiq4vNGw4QC%2FlsNTkjbrse%2BJfx9%2BN82liP%2FvSBntTCtMS5LYODmzmiqcSkxC4TECGE6QX3hdxXmMdISKvPmJR3wRp9xprDHEwv20OJrXRWCFxY%3D%7Ctkp%3ABk9SR-6jpsKUZA). [Download the .stl files](https://github.com/markmcla74/deephz/raw/main/STL/STL.zip)
@@ -61,12 +61,12 @@ If you prefer using a headset, then my custom headset is more comfortable than t
 
 ### Assembly Instructions for Custom Headset
 
-* Cut each strap in half. Feed the straps through the slots. Use the front slot for your phone, back slot for your head.
-* Secure the two most outer plates with the two machine screws and nuts that protrude outward, as shown in the picture above.<br>These screws will support the phone, along with the velcro straps.
-* Secure all of the plates to the main body using the remaining machine screws and nuts.
-* Cut some 3/4" wide velcro strips ("hook" or "prickly" side) so that the velcro fits on the top and bottom rim of the main body.
-* Attach the face cover pad to the rim of the main body. The face cover pad will stick to the velcro.
-* Adjust the straps if necessary. Trim the excess strap once you are satisfied with the fit.
+- Cut each strap in half. Feed the straps through the slots. Use the front slot for your phone, back slot for your head.
+- Secure the two most outer plates with the two machine screws and nuts that protrude outward, as shown in the picture above.<br>These screws will support the phone, along with the velcro straps.
+- Secure all of the plates to the main body using the remaining machine screws and nuts.
+- Cut some 3/4" wide velcro strips ("hook" or "prickly" side) so that the velcro fits on the top and bottom rim of the main body.
+- Attach the face cover pad to the rim of the main body. The face cover pad will stick to the velcro.
+- Adjust the straps if necessary. Trim the excess strap once you are satisfied with the fit.
 
 ---
 
