@@ -31,7 +31,7 @@ To avoid confusion between the flash speed and the light output, DeepHz separate
    $$I(t) = 0.5 \times \left(1 + \sin\left(\theta(t) - \frac{\pi}{2}\right)\right)$$
    This completely eliminates the harsh square-wave harmonic noise native to traditional hardware mind machines.
 
-2. **The Flash Frequency ($f(t)$):** The speed of the flashes can either be **static** (a steady, unchanged entrainment frequency) or **dynamic** (a smooth linear ramp moving from a start frequency to an end frequency over time).
+2. **The Flash Frequency** ($f(t)$)**:** The speed of the flashes can either be **static** (a steady, unchanged entrainment frequency) or **dynamic** (a smooth linear ramp moving from a start frequency to an end frequency over time).
 
 3. **Real-Time Phase Integration:** Because frequency can shift dynamically, you can't just plug a changing frequency into a static formula. Instead, DeepHz calculates phase continuously in real time:
    $$\theta(t) = 2\pi \int f(t) \, dt$$
