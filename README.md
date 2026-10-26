@@ -27,14 +27,18 @@ By modulating display brightness in time strictly along a sine curve between ful
 
 To avoid confusion between the flash speed and the light output, DeepHz separates its mechanics into three simple rules:
 
-1. **The Brightness Waveform (Always a Sine Wave):** Regardless of whether the app is running a steady tone or a ramp, the screen brightness ($I(t)$) *always* pulses smoothly from total black ($0,0,0$) to full color using an offset sine wave (black screen when $t=0$):
+1. **The Brightness Waveform (Always a Sine Wave):** Regardless of whether the app is running a steady tone or a ramp, the screen brightness (*I(t)*) always pulses smoothly from total black (0, 0, 0) to full color using an offset sine wave (black screen when *t* = 0):
+
    $$I(t) = 0.5 \times \left(1 + \sin\left(\theta(t) - \frac{\pi}{2}\right)\right)$$
+
    This completely eliminates the harsh square-wave harmonic noise native to traditional hardware mind machines.
 
-2. **The Flash Frequency** ($f(t)$)**:** The speed of the flashes can either be **static** (a steady, unchanged entrainment frequency) or **dynamic** (a smooth linear ramp moving from a start frequency to an end frequency over time).
+2. **The Flash Frequency (*f(t)*):** The speed of the flashes can either be **static** (a steady, unchanged entrainment frequency) or **dynamic** (a smooth linear ramp moving from a start frequency to an end frequency over time).
 
 3. **Real-Time Phase Integration:** Because frequency can shift dynamically, you can't just plug a changing frequency into a static formula. Instead, DeepHz calculates phase continuously in real time:
+
    $$\theta(t) = 2\pi \int f(t) \, dt$$
+
    By accumulating phase step-by-step rather than jumping between steps, DeepHz maintains absolute phase continuity across both steady tones and frequency ramps. This prevents the jarring visual clicks and frequency discontinuities found in older devices.
 ---
 
